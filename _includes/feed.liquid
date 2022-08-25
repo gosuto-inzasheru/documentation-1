@@ -167,6 +167,10 @@ section: ethereum
                             <td><code>${proxy.assetName}</code></td>
                             <td><code>${proxy.feedType}</code></td>
                             `;
+                        }else {
+                            proxyList += `
+                            </td>
+                            `;
                         }
                         proxyList += `
                             <td ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.deviationThreshold ? (proxy.deviationThreshold + '%') : 'N/A'}</td>

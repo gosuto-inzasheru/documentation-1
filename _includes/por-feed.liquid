@@ -147,43 +147,54 @@ section: ethereum
                         for(let proxy of network.proxies) {
                             proxyList += `
                             <tr id="${network.name} ${proxy.pair}">
-                            <td><div class="proxy-pair-column">${feedCategories[proxy.feedCategory] || ''}<code class="proxy-pair">${proxy.pair}</code></div>
+                                <td rowspan="2" ><div class="proxy-pair-column">${feedCategories[proxy.feedCategory] || ''}<code class="proxy-pair">${proxy.pair}</code></div>
+                                <td><a href="${network.url.replace('%s',proxy.proxy)}"><code>${proxy.proxy}</code></a></td>
+                                <td rowspan="2" ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.deviationThreshold ? (proxy.deviationThreshold + '%') : 'N/A'}</td>
+                                <td rowspan="2" ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.heartbeat ? proxy.heartbeat : 'N/A'}</td>
+                                <td rowspan="2" ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.decimals ? proxy.decimals : 'N/A'}</td>
+                            </tr>
                             `;
                             if(network.networkType == "mainnet") {
                                 proxyList += `
                                 ${ proxy.shutdownDate ? '<hr class="shutDate"><div class="shutDate">Deprecating:<br/>' + proxy.shutdownDate + '</div>' : '' }
                                 </td>
-                                <td><code>${proxy.assetName}</code></td>
-                                <td><code>${proxy.feedType}</code></td>
+                                <td>
+                                    <ul>
+                                        <li>Asset: <code>${proxy.assetName}</code></li>
+                                        <li>Asset Type: <code>${proxy.feedType}</code></li>
+                                        <li>PoR Type: <code>${proxy.por.type}</code></li>
+                                        <li>Source: <code>${proxy.por.source}</code></li>
+                                    </ul>
+                                </td>
+                                `;
+                            }else {
+                                proxyList += `
+                                </td>
+                                <td>
+                                <ul>
+                                    <li>PoR Type: <code>${proxy.por.type}</code></li>
+                                    <li>Source: <code>${proxy.por.source}</code></li>
+                                </ul>
+                            </td>
                                 `;
                             }
                             proxyList += `
-                                <td ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.deviationThreshold ? (proxy.deviationThreshold + '%') : 'N/A'}</td>
-                                <td ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.heartbeat ? proxy.heartbeat : 'N/A'}</td>
-                                <td ${ showExtraDetails ? '' : 'class="detail-hidden"'}>${proxy.decimals ? proxy.decimals : 'N/A'}</td>
-                                <td><a href="${network.url.replace('%s',proxy.proxy)}"><code>${proxy.proxy}</code></a></td>
-                            </tr>`;
+                            </tr>
+                            `;
                         }
 
                         html += `
                             <table>
                             <thead>
                             <tr>
-                            <th>Pair</th>
+                            <th>PoR feed</th>
+                            <th>Address and info</th>
                         `;
-
-                        if(network.networkType == "mainnet") {
-                            html += `
-                                <th>Asset</th>
-                                <th>Type</th>
-                            `;
-                        }
 
                         html += `
                             <th ${ showExtraDetails ? '' : 'class="detail-hidden"'}>Deviation</th>
                             <th ${ showExtraDetails ? '' : 'class="detail-hidden"'}>Heartbeat</th>
                             <th ${ showExtraDetails ? '' : 'class="detail-hidden"'}>Dec</th>
-                            <th>Address</th>
                             </tr>
                             </thead>
                             <tbody>${proxyList}</tbody>
