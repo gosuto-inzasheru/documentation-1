@@ -196,7 +196,7 @@ module.exports = {
             children: [
               {
                 title: 'Proof of Reserve Addresses',
-                url: '/docs/data-feeds/por-addresses/',
+                url: '/docs/data-feeds/proof-of-reserve/addresses/',
               },
             ]
           },
